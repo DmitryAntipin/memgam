@@ -1,0 +1,203 @@
+!DOCTYPE Html
+<script>
+/* Should have a for loop creating a set number of randomly paired tiles here, but didn't learn to write that just yet. */
+
+var tiles = {
+  "tile1" : {
+  "color" : "blue",
+  "solved" : false
+},
+  "tile2" : {
+  "color" : "red",
+  "solved" : false
+},
+  "tile3" : {
+  "color" : "green",
+  "solved" : false
+},
+  "tile4" : {
+  "color" : "orange",
+  "solved" : false
+},
+  "tile5" : {
+  "color" : "pink",
+  "solved" : false
+},
+  "tile6" : {
+  "color" : "cyan",
+  "solved" : false
+},
+  "tile7" : {
+  "color" : "yellow",
+  "solved" : false
+},
+  "tile8" : {
+  "color" : "purple",
+  "solved" : false
+},
+  "tile9" : {
+  "color" : "cyan",
+  "solved" : false
+},
+  "tile10" : {
+  "color" : "green",
+  "solved" : false
+},
+  "tile11" : {
+  "color" : "purple",
+  "solved" : false
+},
+  "tile12" : {
+  "color" : "orange",
+  "solved" : false
+},
+  "tile13" : {
+  "color" : "yellow",
+  "solved" : false
+},
+  "tile14" : {
+  "color" : "blue",
+  "solved" : false
+},
+  "tile15" : {
+  "color" : "pink",
+  "solved" : false
+},
+  "tile16" : {
+  "color" : "red",
+  "solved" : false
+}
+
+};
+
+var currentColor;
+var openTile;
+var openColor;
+var clicksCount = 0;
+var solvedCount = 0;
+var totalCount = 16;
+
+function flipcard(tile) {
+  if (tiles[tile].solved != true) { 
+    /* Checks if the tile was already solved */ 
+  openColor = tiles[tile].color;
+  clicksCount += 1;
+  
+    /* FLIPPING THE CARDS! */
+  if (currentColor != undefined) { 
+    /* Switch between 1st and 2nd open cards */ 
+    if (openColor == currentColor) {
+      /* Two open cards match */
+      tiles[tile].solved = true;
+      tiles[openTile].solved = true;
+      document.getElementById(tile).style.backgroundColor = openColor;
+      document.getElementById(openTile).style.backgroundColor = openColor;
+      currentColor = undefined;
+      solvedCount += 2;
+    }
+    else {
+      /* Two open cards don't match */
+      currentColor = undefined;
+      document.getElementById(tile).style.backgroundColor = openColor;
+      setTimeout(function() {
+        document.getElementById(openTile).style.backgroundColor = "white";
+        document.getElementById(tile).style.backgroundColor = "white";} , 500);
+    };
+   }
+  else {
+    /* One card open */
+    currentColor = openColor;
+    openTile = tile;
+    document.getElementById(openTile).style.backgroundColor = openColor;
+  };
+  };
+  
+  /* ENDGAME! */
+  if (solvedCount == totalCount) {// Should have a reset button to randomize the tiles.
+    window.alert("You solved it in " + clicksCount + " clicks!")
+  };
+
+  
+};
+</script>
+
+<style>
+body {
+  margin: 0px;
+  background-color: black;
+}
+
+main {
+  background-color: rgb(33, 66, 99);
+  padding: 25px;
+}
+
+#gametable {
+  background-color: white;
+  width: 700px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 25px;
+  justify-content: space-around;
+  padding: 30px;
+  box-shadow: 0px 0px 20px;
+}
+
+.tiles {
+  width: 150px;
+  height: 200px;
+  margin: auto;
+  border: solid 5px white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 3px grey, 0px 0px 1px 1px gray;
+  
+}
+
+@keyframes fade-in {
+  0% {opacity: 0.0;}
+  100% {opacity: 1.0;}
+}
+
+.closed {
+  background-colo: white;
+  animation-name: fade-in;
+  animation-duration: 2s;
+}
+
+#testlog {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+}
+
+#stats {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+}
+</style>
+
+
+<main>
+  <div id="gametable"> 
+    <div class="closed tiles" id="tile1" onclick="flipcard('tile1')"> </div>
+    <div class="closed tiles" id="tile2" onclick="flipcard('tile2')"> </div>
+    <div class="closed tiles" id="tile3" onclick="flipcard('tile3')"> </div>
+    <div class="closed tiles" id="tile4" onclick="flipcard('tile4')"> </div>
+    <div class="closed tiles" id="tile5" onclick="flipcard('tile5')"> </div>
+    <div class="closed tiles" id="tile6" onclick="flipcard('tile6')"> </div>
+    <div class="closed tiles" id="tile7" onclick="flipcard('tile7')"> </div>
+    <div class="closed tiles" id="tile8" onclick="flipcard('tile8')"> </div>
+    <div class="closed tiles" id="tile9" onclick="flipcard('tile9')"> </div>
+    <div class="closed tiles" id="tile10" onclick="flipcard('tile10')"> </div>
+    <div class="closed tiles" id="tile11" onclick="flipcard('tile11')"> </div>
+    <div class="closed tiles" id="tile12" onclick="flipcard('tile12')"> </div>
+    <div class="closed tiles" id="tile13" onclick="flipcard('tile13')"> </div>
+    <div class="closed tiles" id="tile14" onclick="flipcard('tile14')"> </div>
+    <div class="closed tiles" id="tile15" onclick="flipcard('tile15')"> </div>
+    <div class="closed tiles" id="tile16" onclick="flipcard('tile16')"> </div>
+  </div>
+</div>
+</main>
+
