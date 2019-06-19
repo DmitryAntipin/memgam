@@ -1,7 +1,8 @@
 <!Doctype html>
 <html>
+<head>
 <script>
-/* Should have a for loop creating a set number of randomly paired tiles here, but didn't learn to write that just yet. */
+/* Should have a for loop creating a set number of randomly paired tiles here, but didn't learn to write that yet. */
 
 var tiles = {
   "tile1" : {
@@ -85,41 +86,132 @@ function flipcard(tile) {
   clicksCount += 1;
   
     /* FLIPPING THE CARDS! */
-  if (currentColor != undefined) { 
+  if (currentColor != undefined) {
     /* Switch between 1st and 2nd open cards */ 
     if (openColor == currentColor) {
       /* Two open cards match */
       tiles[tile].solved = true;
       tiles[openTile].solved = true;
-      document.getElementById(tile).style.backgroundColor = openColor;
-      document.getElementById(openTile).style.backgroundColor = openColor;
+    
+    /* Rotation animation */
+    var rotate = document.getElementById(tile);
+    var rot = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+    if (rot == 180) {
+     clearInterval(id);}
+     else
+     {
+      rot++;
+      rotate.style.transform = "rotateY(" + rot + "deg)";
+      if (rot > 90) {
+        rotate.style.backgroundColor = openColor;
+      }
+    }
+    }
+      
       currentColor = undefined;
       solvedCount += 2;
     }
     else {
       /* Two open cards don't match */
       currentColor = undefined;
-      document.getElementById(tile).style.backgroundColor = openColor;
+    
+    /* Rotation animation */
+    var rotate = document.getElementById(tile);
+    var rot = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+    if (rot == 180) {
+     clearInterval(id);}
+     else
+     {
+      rot++;
+      rotate.style.transform = "rotateY(" + rot + "deg)";
+      if (rot > 90) {
+        rotate.style.backgroundColor = openColor;
+      }
+    }
+    }
+      /* Flipping the cards back */
       setTimeout(function() {
-        document.getElementById(openTile).style.backgroundColor = "white";
-        document.getElementById(tile).style.backgroundColor = "white";} , 500);
+        
+    /* Rotation animation - 1st card*/  
+    var rotate = document.getElementById(openTile);
+    var rot = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+    if (rot == 180) {
+     clearInterval(id);}
+     else
+     {
+      rot++;
+      rotate.style.transform = "rotateY(" + rot + "deg)";
+      if (rot > 90) {
+        rotate.style.backgroundColor = "rgb(225,225,225)";
+      }
+    }
+    };
+    
+    /* Rotation animation - 2nd card*/    
+    var rotate2 = document.getElementById(tile);
+    var rot2 = 0;
+    var id2 = setInterval(frame2, 5);
+    function frame2() {
+    if (rot2 == 180) {
+     clearInterval(id2);}
+     else
+     {
+      rot2++;
+      rotate2.style.transform = "rotateY(" + rot2 + "deg)";
+      if (rot2 > 90) {
+        rotate2.style.backgroundColor = "rgb(225,225,225)";
+      }
+    }
+    }
+        
+      } , 1000);
+      
     };
    }
   else {
     /* One card open */
     currentColor = openColor;
     openTile = tile;
-    document.getElementById(openTile).style.backgroundColor = openColor;
+    
+    /* Rotation animation */
+    var rotate = document.getElementById(tile);
+    var rot = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+    if (rot == 180) {
+     clearInterval(id);}
+     else
+     {
+      rot++;
+      rotate.style.transform = "rotateY(" + rot + "deg)";
+      if (rot > 90) {
+        rotate.style.backgroundColor = openColor;
+      }
+    }
+    }
+    
   };
   };
   
   /* ENDGAME! */
-  if (solvedCount == totalCount) {// Should have a reset button to randomize the tiles.
+  if (solvedCount == totalCount) {
     window.alert("You solved it in " + clicksCount + " clicks!")
   };
 
   
 };
+
+/* Possible improvements list (things I don't know how to do yet):
+ - Create tiles with function, randomize placement
+ - Once procedural, should be able to create grid of various sizes
+ - Add reset button at the end
+*/
 </script>
 
 <style>
@@ -129,8 +221,30 @@ body {
 }
 
 main {
-  background-color: rgb(33, 66, 99);
+  background-color: rgb(125, 170, 200);
   padding: 25px;
+}
+
+#heading {
+  background-color: white;
+  width: 740px;
+  margin: auto;
+  margin-bottom: 10px;
+  display: grid;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  margin: 0px;
+  font-family: Merriweather, Helvetica;
+}
+
+#instructions {
+  margin: 5px 0px;
+  font-family: Helvetica;
 }
 
 #gametable {
@@ -142,17 +256,8 @@ main {
   grid-gap: 25px;
   justify-content: space-around;
   padding: 30px;
-  box-shadow: 0px 0px 20px;
-}
-
-.tiles {
-  width: 150px;
-  height: 200px;
-  margin: auto;
-  border: solid 5px white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 3px grey, 0px 0px 1px 1px gray;
-  
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.1);
 }
 
 @keyframes fade-in {
@@ -160,10 +265,21 @@ main {
   100% {opacity: 1.0;}
 }
 
-.closed {
-  background-colo: white;
+.tiles {
+  width: 150px;
+  height: 200px;
+  margin: auto;
+  border: solid 5px white;
+  border-radius: 5px;
+  box-shadow: 0px 5px 3px grey, 0px 0px 2px 1px rgb(150,150,150);
+  background-color: rgb(225,225,225);
   animation-name: fade-in;
   animation-duration: 2s;
+}
+
+.tiles:hover {
+  box-shadow: 0px 0px 15px rgb(200, 175, 125);
+  transform: scale(1.05,1.05); -- Not sure why this works only once
 }
 
 #testlog {
@@ -171,34 +287,38 @@ main {
   width: 90%;
   margin: auto;
 }
-
-#stats {
-  background-color: white;
-  width: 90%;
-  margin: auto;
-}
 </style>
 
 
+<link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+</head>
+
+<body>
 <main>
+  <div id="heading">
+    <h1>Memory game</h1>
+    <p id="instructions">Find all the matching cards in as few clicks as possible</p>
+  </div>
+  
   <div id="gametable"> 
-    <div class="closed tiles" id="tile1" onclick="flipcard('tile1')"> </div>
-    <div class="closed tiles" id="tile2" onclick="flipcard('tile2')"> </div>
-    <div class="closed tiles" id="tile3" onclick="flipcard('tile3')"> </div>
-    <div class="closed tiles" id="tile4" onclick="flipcard('tile4')"> </div>
-    <div class="closed tiles" id="tile5" onclick="flipcard('tile5')"> </div>
-    <div class="closed tiles" id="tile6" onclick="flipcard('tile6')"> </div>
-    <div class="closed tiles" id="tile7" onclick="flipcard('tile7')"> </div>
-    <div class="closed tiles" id="tile8" onclick="flipcard('tile8')"> </div>
-    <div class="closed tiles" id="tile9" onclick="flipcard('tile9')"> </div>
-    <div class="closed tiles" id="tile10" onclick="flipcard('tile10')"> </div>
-    <div class="closed tiles" id="tile11" onclick="flipcard('tile11')"> </div>
-    <div class="closed tiles" id="tile12" onclick="flipcard('tile12')"> </div>
-    <div class="closed tiles" id="tile13" onclick="flipcard('tile13')"> </div>
-    <div class="closed tiles" id="tile14" onclick="flipcard('tile14')"> </div>
-    <div class="closed tiles" id="tile15" onclick="flipcard('tile15')"> </div>
-    <div class="closed tiles" id="tile16" onclick="flipcard('tile16')"> </div>
+    <div class="tiles" id="tile1" onclick="flipcard('tile1')"> </div>
+    <div class="tiles" id="tile2" onclick="flipcard('tile2')"> </div>
+    <div class="tiles" id="tile3" onclick="flipcard('tile3')"> </div>
+    <div class="tiles" id="tile4" onclick="flipcard('tile4')"> </div>
+    <div class="tiles" id="tile5" onclick="flipcard('tile5')"> </div>
+    <div class="tiles" id="tile6" onclick="flipcard('tile6')"> </div>
+    <div class="tiles" id="tile7" onclick="flipcard('tile7')"> </div>
+    <div class="tiles" id="tile8" onclick="flipcard('tile8')"> </div>
+    <div class="tiles" id="tile9" onclick="flipcard('tile9')"> </div>
+    <div class="tiles" id="tile10" onclick="flipcard('tile10')"> </div>
+    <div class="tiles" id="tile11" onclick="flipcard('tile11')"> </div>
+    <div class="tiles" id="tile12" onclick="flipcard('tile12')"> </div>
+    <div class="tiles" id="tile13" onclick="flipcard('tile13')"> </div>
+    <div class="tiles" id="tile14" onclick="flipcard('tile14')"> </div>
+    <div class="tiles" id="tile15" onclick="flipcard('tile15')"> </div>
+    <div class="tiles" id="tile16" onclick="flipcard('tile16')"> </div>
   </div>
 </div>
 </main>
+</body>
 </html>
